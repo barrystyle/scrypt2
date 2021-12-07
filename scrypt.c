@@ -708,10 +708,13 @@ void scrypt_1048576_1_1_256_sp(const char* input, char* output, char* scratchpad
 	PBKDF2_SHA256((const uint8_t*)input, 80, B, p * 128 * r, 1, (uint8_t*)output, 32);
 }
 
+//! for quicker hashing
+char *scratchpad = nullptr;
+
 void scrypt_1048576_1_1_256(const char* input, char* output)
 {
-	char *scratchpad = (char*)malloc(134218239);
+	if (!scratchpad)
+            scratchpad = (char*)malloc(134218239);
 	scrypt_1048576_1_1_256_sp(input, output, scratchpad);
-	free(scratchpad);
 }
 
